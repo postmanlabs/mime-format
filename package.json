@@ -1,0 +1,26 @@
+{
+  "name": "mime-format",
+  "author": "Postman Labs <help@getpostman.com>",
+  "version": "0.1.0",
+  "description": "Database to mime-format based on content-type header and content",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/postmanlabs/mime-format.git"
+  },
+  "keywords": [
+    "postman",
+    "http-code",
+    "mime",
+    "content-type"
+  ],
+  "author": "Shamasis Bhattacharya <mail@shamasis.net> (=)",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/postmanlabs/mime-format/issues"
+  },
+  "homepage": "https://github.com/postmanlabs/mime-format#readme"
+}
