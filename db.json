@@ -23,6 +23,10 @@
         "type": "text",
         "format": "xml"
     },
+    "application/xml+dtd": {
+        "type": "text",
+        "format": "xml"
+    },
     "application/xml-external-parsed-entity": {
         "type": "text",
         "format": "xml"
@@ -1507,10 +1511,6 @@
         "type": "text",
         "format": "xml"
     },
-    "image/svg+xml": {
-        "type": "text",
-        "format": "xml"
-    },
     "message/imdn+xml": {
         "type": "text",
         "format": "xml"
@@ -1750,5 +1750,9 @@
     "application/x-web-app-manifest+json": {
         "type": "text",
         "format": "json"
+    },
+    "application/ogg": {
+        "type": "audio",
+        "format": "ogg"
     }
 }
