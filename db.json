@@ -1,11 +1,11 @@
 {
     "application/ecmascript": {
         "type": "text",
-        "format": "ecmascript"
+        "format": "script"
     },
     "application/javascript": {
         "type": "text",
-        "format": "ecmascript"
+        "format": "script"
     },
     "application/json": {
         "type": "text",
