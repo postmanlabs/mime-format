@@ -28,7 +28,7 @@ describe('lookup', function () {
         });
 
         it('handles normal charset', function () {
-            var mime = mimeFormat.lookup('application/unknwon-stream; charset=utf8');
+            var mime = mimeFormat.lookup('application/unknown-stream; charset=utf8');
             expect(mime).have.property('type', 'application');
             expect(mime).have.property('format', 'raw');
             expect(mime).have.property('guessed', true);
@@ -435,7 +435,7 @@ describe('lookup', function () {
             expect(mime).have.property('guessed');
         });
         it("text/cmd", function () {
-            var mime = mimeFormat.lookup('text/css');
+            var mime = mimeFormat.lookup('text/cmd');
             expect(mime).have.property('type', 'text');
             expect(mime).have.property('format', 'plain');
             expect(mime).have.property('guessed');
