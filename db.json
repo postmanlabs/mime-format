@@ -1507,10 +1507,6 @@
         "type": "text",
         "format": "xml"
     },
-    "image/svg+xml": {
-        "type": "text",
-        "format": "xml"
-    },
     "message/imdn+xml": {
         "type": "text",
         "format": "xml"
