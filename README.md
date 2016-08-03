@@ -28,3 +28,14 @@ console.log(mimeFormat.lookup('application/xml'));
 //   "format": "xml"
 // }
 ```
+
+## How to handle non-standard content types?
+
+When the content type is not in internal db, it looks for keywords in content type for best match. Under those 
+circumstances, you will see a `guessed: true` property returned. In case even guess failed, you get `guessed: true` but
+`format: 'raw'` will be sent. Format set to raw is a way to notify that the lookup has failed.
+
+## What is format?
+
+Format is a secondary information for `type: 'text'`. For texts, the format highlights what syntax the text is in.
+Additionally, it doubles up to let you know nothing was detected by returning value `raw`.
