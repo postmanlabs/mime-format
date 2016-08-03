@@ -39,6 +39,7 @@ describe('lookup', function () {
             expect(mime).have.property('type', 'embed');
             expect(mime).have.property('format', 'pdf');
             expect(mime).not.have.property('guessed');
+            expect(mime).have.property('source', 'application/pdf');
         });
 
         it('handles untrimmed boundary whitespaces', function () {
@@ -46,6 +47,7 @@ describe('lookup', function () {
             expect(mime).have.property('type', 'embed');
             expect(mime).have.property('format', 'pdf');
             expect(mime).not.have.property('guessed');
+            expect(mime).have.property('source', 'application/pdf');
         });
 
         it('handles untrimmed internal whitespaces outside db', function () {
@@ -53,6 +55,7 @@ describe('lookup', function () {
             expect(mime).have.property('type', 'text');
             expect(mime).have.property('format', 'script');
             expect(mime).have.property('guessed', true);
+            expect(mime).have.property('source', 'application/grooscript');
         });
 
         it('removes unwanted spaces before referring db', function () {
@@ -60,6 +63,7 @@ describe('lookup', function () {
             expect(mime).have.property('type', 'text');
             expect(mime).have.property('format', 'xml');
             expect(mime).not.have.property('guessed');
+            expect(mime).have.property('source', 'application/xml');
         });
 
         it('unknown bases return as "unknown"', function () {

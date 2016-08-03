@@ -141,7 +141,11 @@ module.exports = {
      * @returns {Object}
      */
     lookup: function mimeFormatLookup (mime) {
+        // sanitise the mime argument
         mime = String(mime).toLowerCase().replace(/\s/g, E).replace(/^([^;]+).*$/g, '$1');
-        return db[mime] || module.exports.guess(mime);
+        var result = db[mime] || module.exports.guess(mime);
+
+        result && (result.source = mime); // store the sanitised mime
+        return result;
     }
 };
