@@ -6,44 +6,48 @@ describe('lookup', function () {
     describe('edge case', function () {
         it('handles handle undefined mime with raw format', function () {
             var mime = mimeFormat.lookup();
-            expect(mime).have.property('type', 'undefined');
+            expect(mime).have.property('type', 'unknown');
             expect(mime).have.property('format', 'raw');
             expect(mime).have.property('guessed', true);
+            expect(mime).have.property('orphan', true);
         });
 
         it('handles handle blank mime with raw format', function () {
             var mime = mimeFormat.lookup('');
-            expect(mime).have.property('type', '');
+            expect(mime).have.property('type', 'unknown');
             expect(mime).have.property('format', 'raw');
             expect(mime).have.property('guessed', true);
+            expect(mime).have.property('orphan', true);
         });
 
         it('handles uppercase headers', function () {
-            var mime = mimeFormat.lookup('Application/Json');
-            expect(mime).have.property('type', 'text');
-            expect(mime).have.property('format', 'json');
+            var mime = mimeFormat.lookup('Application/Pdf');
+            expect(mime).have.property('type', 'embed');
+            expect(mime).have.property('format', 'pdf');
             expect(mime).not.have.property('guessed');
         });
 
         it('handles normal charset', function () {
-            var mime = mimeFormat.lookup('application/pdf; charset=utf8');
+            var mime = mimeFormat.lookup('application/unknown-stream; charset=utf8');
             expect(mime).have.property('type', 'application');
-            expect(mime).have.property('format', 'pdf');
+            expect(mime).have.property('format', 'raw');
             expect(mime).have.property('guessed', true);
         });
 
         it('handles malformed charset', function () {
             var mime = mimeFormat.lookup('application/pdf  ; charset = text/utf8');
-            expect(mime).have.property('type', 'application');
+            expect(mime).have.property('type', 'embed');
             expect(mime).have.property('format', 'pdf');
-            expect(mime).have.property('guessed', true);
+            expect(mime).not.have.property('guessed');
+            expect(mime).have.property('source', 'application/pdf');
         });
 
         it('handles untrimmed boundary whitespaces', function () {
             var mime = mimeFormat.lookup('  application/pdf  ; charset = text/utf8');
-            expect(mime).have.property('type', 'application');
+            expect(mime).have.property('type', 'embed');
             expect(mime).have.property('format', 'pdf');
-            expect(mime).have.property('guessed', true);
+            expect(mime).not.have.property('guessed');
+            expect(mime).have.property('source', 'application/pdf');
         });
 
         it('handles untrimmed internal whitespaces outside db', function () {
@@ -51,6 +55,7 @@ describe('lookup', function () {
             expect(mime).have.property('type', 'text');
             expect(mime).have.property('format', 'script');
             expect(mime).have.property('guessed', true);
+            expect(mime).have.property('source', 'application/grooscript');
         });
 
         it('removes unwanted spaces before referring db', function () {
@@ -58,10 +63,26 @@ describe('lookup', function () {
             expect(mime).have.property('type', 'text');
             expect(mime).have.property('format', 'xml');
             expect(mime).not.have.property('guessed');
+            expect(mime).have.property('source', 'application/xml');
+        });
+
+        it('unknown bases return as "unknown"', function () {
+            var mime = mimeFormat.lookup('somebase/no-subtype');
+            expect(mime).have.property('type', 'unknown');
+            expect(mime).have.property('format', 'raw');
+            expect(mime).have.property('guessed');
+            expect(mime).have.property('orphan', true);
         });
     });
 
     describe('sanity', function () {
+        it('"text/pdf"', function () {
+            var mime = mimeFormat.lookup('text/pdf');
+            expect(mime).have.property('type', 'text');
+            expect(mime).have.property('format', 'plain');
+            expect(mime).have.property('guessed', true);
+        });
+
         it('"text/plain"', function () {
             var mime = mimeFormat.lookup('text/plain');
             expect(mime).have.property('type', 'text');
@@ -125,18 +146,11 @@ describe('lookup', function () {
             expect(mime).have.property('guessed', true);
         });
 
-        it('"text/pdf"', function () {
-            var mime = mimeFormat.lookup('text/pdf');
-            expect(mime).have.property('type', 'text');
-            expect(mime).have.property('format', 'plain');
-            expect(mime).have.property('guessed', true);
-        });
-
         it('"application/pdf"', function () {
             var mime = mimeFormat.lookup('application/pdf');
-            expect(mime).have.property('type', 'application');
+            expect(mime).have.property('type', 'embed');
             expect(mime).have.property('format', 'pdf');
-            expect(mime).have.property('guessed', true);
+            expect(mime).not.have.property('guessed');
         });
 
         it('"application/xml"', function () {
@@ -212,9 +226,9 @@ describe('lookup', function () {
         });
         it("application/pdf", function () {
             var mime = mimeFormat.lookup('application/pdf');
-            expect(mime).have.property('type', 'application');
+            expect(mime).have.property('type', 'embed');
             expect(mime).have.property('format', 'pdf');
-            expect(mime).have.property('guessed');
+            expect(mime).not.have.property('guessed');
         });
         it("application/postscript", function () {
             var mime = mimeFormat.lookup('application/postscript');
@@ -252,9 +266,24 @@ describe('lookup', function () {
             expect(mime).have.property('format', 'xml');
             expect(mime).not.have.property('guessed');
         });
-        it.skip("application/zip", function () {});
-        it.skip("application/gzip", function () {});
-        it.skip("application/graphql", function () {});
+        it("application/zip", function () {
+            var mime = mimeFormat.lookup('application/zip');
+            expect(mime).have.property('type', 'application');
+            expect(mime).have.property('format', 'raw');
+            expect(mime).have.property('guessed');
+        });
+        it("application/gzip", function () {
+            var mime = mimeFormat.lookup('application/gzip');
+            expect(mime).have.property('type', 'application');
+            expect(mime).have.property('format', 'raw');
+            expect(mime).have.property('guessed');
+        });
+        it("application/graphql", function () {
+            var mime = mimeFormat.lookup('application/graphql');
+            expect(mime).have.property('type', 'application');
+            expect(mime).have.property('format', 'raw');
+            expect(mime).have.property('guessed');
+        });
         it("audio/basic", function () {
             var mime = mimeFormat.lookup('audio/ogg');
             expect(mime).have.property('type', 'audio');
@@ -345,30 +374,80 @@ describe('lookup', function () {
             expect(mime).have.property('format', 'image');
             expect(mime).have.property('guessed');
         });
-        it.skip("message/http", function () {});
-        it.skip("message/imdn+xml", function () {});
-        it.skip("message/partial", function () {});
-        it.skip("message/rfc822", function () {});
-        it.skip("multipart/mixed", function () {});
-        it.skip("multipart/alternative", function () {});
-        it.skip("multipart/related", function () {});
+        it("message/http", function () {
+            var mime = mimeFormat.lookup('message/http');
+            expect(mime).have.property('type', 'message');
+            expect(mime).have.property('format', 'raw');
+            expect(mime).have.property('guessed');
+        });
+        it("message/imdn+xml", function () {
+            var mime = mimeFormat.lookup('message/imdn+xml');
+            expect(mime).have.property('type', 'text');
+            expect(mime).have.property('format', 'xml');
+            expect(mime).not.have.property('guessed');
+        });
+        it("message/partial", function () {
+            var mime = mimeFormat.lookup('message/partial');
+            expect(mime).have.property('type', 'message');
+            expect(mime).have.property('format', 'raw');
+            expect(mime).have.property('guessed');
+        });
+        it("message/rfc822", function () {
+            var mime = mimeFormat.lookup('message/rfc822');
+            expect(mime).have.property('type', 'message');
+            expect(mime).have.property('format', 'raw');
+            expect(mime).have.property('guessed');
+        });
+        it("multipart/mixed", function () {
+            var mime = mimeFormat.lookup('multipart/mixed');
+            expect(mime).have.property('type', 'multipart');
+            expect(mime).have.property('format', 'raw');
+            expect(mime).have.property('guessed');
+        });
+        it("multipart/alternative", function () {
+            var mime = mimeFormat.lookup('multipart/alternative');
+            expect(mime).have.property('type', 'multipart');
+            expect(mime).have.property('format', 'raw');
+            expect(mime).have.property('guessed');
+        });
+        it("multipart/related", function () {
+            var mime = mimeFormat.lookup('multipart/related');
+            expect(mime).have.property('type', 'multipart');
+            expect(mime).have.property('format', 'raw');
+            expect(mime).have.property('guessed');
+        });
         it("multipart/form-data", function () {
             var mime = mimeFormat.lookup('multipart/form-data');
             expect(mime).have.property('type', 'multipart');
             expect(mime).have.property('format', 'raw');
             expect(mime).have.property('guessed');
         });
-        it.skip("multipart/signed", function () {});
-        it.skip("multipart/encrypted", function () {});
-        it.skip("text/cmd", function () {});
+        it("multipart/signed", function () {
+            var mime = mimeFormat.lookup('multipart/signed');
+            expect(mime).have.property('type', 'multipart');
+            expect(mime).have.property('format', 'raw');
+            expect(mime).have.property('guessed');
+        });
+        it("multipart/encrypted", function () {
+            var mime = mimeFormat.lookup('multipart/encrypted');
+            expect(mime).have.property('type', 'multipart');
+            expect(mime).have.property('format', 'raw');
+            expect(mime).have.property('guessed');
+        });
+        it("text/cmd", function () {
+            var mime = mimeFormat.lookup('text/cmd');
+            expect(mime).have.property('type', 'text');
+            expect(mime).have.property('format', 'plain');
+            expect(mime).have.property('guessed');
+        });
         it("text/css", function () {
-            var mime = mimeFormat.lookup('text/csv');
+            var mime = mimeFormat.lookup('text/css');
             expect(mime).have.property('type', 'text');
             expect(mime).have.property('format', 'plain');
             expect(mime).have.property('guessed');
         });
         it("text/csv", function () {
-            var mime = mimeFormat.lookup('text/css');
+            var mime = mimeFormat.lookup('text/csv');
             expect(mime).have.property('type', 'text');
             expect(mime).have.property('format', 'plain');
             expect(mime).have.property('guessed');
