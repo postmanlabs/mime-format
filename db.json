@@ -1,4 +1,8 @@
 {
+    "application/pdf": {
+        "type": "embed",
+        "format": "pdf"
+    },
     "application/ecmascript": {
         "type": "text",
         "format": "script"
