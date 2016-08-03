@@ -5,7 +5,7 @@ var /**
     db = require('./db.json'),
     /**
      * @private
-     * @constacti
+     * @const
      * @type {String}
      */
     SEP = '/',
@@ -14,7 +14,64 @@ var /**
      * @const
      * @type {string}
      */
-    E = '';
+    E = '',
+    /**
+     * @private
+     * @const
+     * @type {string}
+     */
+    TEXT = 'text',
+    /**
+     * @private
+     * @const
+     * @type {string}
+     */
+    RAW = 'raw',
+    /**
+     * @private
+     * @const
+     * @type {string}
+     */
+    UNKNOWN = 'unknown',
+    /**
+     * @private
+     * @const
+     * @type {string}
+     */
+    PLAIN = 'plain',
+
+    /**
+     * All the content type base types that mostly mean what they are meant to do!
+     *
+     * @private
+     * @const
+     * @type {RegExp}
+     */
+    AUDIO_VIDEO_IMAGE_TEXT = /(audio|video|image|text)/,
+    /**
+     * A blanket check for commonly used keywords that are associated with text content type
+     *
+     * @private
+     * @const
+     * @type {RegExp}
+     */
+    JSON_XML_SCRIPT_SIBLINGS = /(jsonp|json|xml|html|yaml|vml|webml|script)/,
+    /**
+     * Same check as the sure-shot bases, except that these must be sub-types
+     *
+     * @private
+     * @const
+     * @type {RegExp}
+     */
+    AUDIO_VIDEO_IMAGE_TEXT_SUBTYPE = /\/[^\/]*(audio|video|image|text)/,
+    /**
+     * The content type bases that are not well defined or ambiguous to classify
+     *
+     * @private
+     * @const
+     * @type {RegExp}
+     */
+    APPLICATION_MESSAGE_MULTIPART = /(application|message|multipart)/;
 
 module.exports = {
     /**
@@ -25,55 +82,66 @@ module.exports = {
      * @returns {Object}
      */
     guess: function (mime) {
-        var match,
-            textFormat,
-            mimeBase,
-            otherFormats;
+        var info = {
+                type: UNKNOWN,
+                format: RAW,
+                guessed: true
+            },
+            match,
+            base;
 
-        // we now get the first part of content type and treat it as type reference
-        mimeBase = (mimeBase = mime.split(SEP)) && mimeBase[0] &&
-            mimeBase[0].replace(/^\s\s*/, E).replace(/\s\s*$/, E) || E;
-        match = mimeBase.match(/(audio|video|image)/);
-        // if we get the predictable bases, we bail out
+        // extract the mime base
+        base = (base = mime.split(SEP)) && base[0] || E;
+
+        // bail out on the mime types that are sure-shot ones with no ambiguity
+        match = base.match(AUDIO_VIDEO_IMAGE_TEXT);
         if (match && match[1]) {
-            return {
-                type: mimeBase,
-                format: match[1],
-                guessed: true
-            };
+            info.type = info.format = match[1];
+
+            // we do special kane matching to extract the format in case the match was text
+            // this ensures that we get same formats like we will do in kane match later down the line
+            if (info.type === TEXT) {
+                match = mime.match(JSON_XML_SCRIPT_SIBLINGS);
+                info.format = match && match[1] || PLAIN;
+            }
+            return info;
         }
 
-        // now we detect text format from remaining ambiguous bases
-        match = mime.match(/\/[^\/]*(jsonp|json|xml|html|yaml|vml|script)/);
-        textFormat = match && match[1];
-
-        // if we see text format, we do not need to process further and return the format.
-        if (textFormat || (mimeBase === 'text')) {
-            return {
-                type: 'text',
-                format: textFormat || 'plain',
-                guessed: true
-            };
+        // we do a kane match on entire mime (not just base) to find texts
+        match = mime.match(JSON_XML_SCRIPT_SIBLINGS);
+        if (match && match[1]) {
+            info.type = TEXT;
+            info.format = match[1];
+            return info;
         }
 
-        // we now detect other formats that are not present in base
-        match = mime.match(/(audio|video|image|pdf|text)/);
-        otherFormats = match && match[1];
+        // now we match the subtype having names from the sure shot bases
+        match = mime.match(AUDIO_VIDEO_IMAGE_TEXT_SUBTYPE);
+        if (match && match[1]) {
+            info.type = info.format = match[1];
+            return info;
+        }
 
-        return { // default is `raw` for all unknown stuff
-            type: mimeBase,
-            format: otherFormats || 'raw',
-            guessed: true,
-            unknown: !(mimeBase && otherFormats)
-        };
+        // now that most text and sure-shot types and sub-types are out of our way, we detect standard bases
+        // and rest are unknown
+        match = base.match(APPLICATION_MESSAGE_MULTIPART);
+        if (match && match[1]) {
+            info.type = match[1];
+            info.format = RAW;
+            return info;
+        }
+
+        // at this point nothing has matched nothing. it is worth keeping a note of it
+        info.orphan = true;
+        return info;
     },
+
     /**
      * @param {String} mime - contentType header value
      * @returns {Object}
      */
     lookup: function mimeFormatLookup (mime) {
-        return (mime = String(mime).toLowerCase()) &&
-            (mime = mime.replace(/^([^;]+).*$/g, '$1').replace(/\s/g, E)) && db[mime] ||
-            module.exports.guess(mime);
+        mime = String(mime).toLowerCase().replace(/\s/g, E).replace(/^([^;]+).*$/g, '$1');
+        return db[mime] || module.exports.guess(mime);
     }
 };

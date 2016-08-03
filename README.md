@@ -39,5 +39,33 @@ If the contentType argument is not a string, then the detection is attempted by 
 
 ## What is format?
 
-Format is a secondary information for `type: 'text'`. For texts, the format highlights what syntax the text is in.
-Additionally, it doubles up to let you know text was not detected by returning value `raw`.
+Format is a secondary information for `type: 'text' and 'embed`. For texts, the format highlights what syntax the text
+is in. Additionally, it doubles up to let you know text was not detected by returning value `raw`. For most cases this
+is redundant.
+
+## List of types:
+
+- text
+- image
+- audio
+- video
+- embed
+- message
+- multipart
+- unknown
+
+## List of formats:
+
+- audio
+- video
+- image
+- plain
+- jsonp
+- json
+- xml
+- html
+- yaml
+- vml
+- webml
+- script
+- raw
