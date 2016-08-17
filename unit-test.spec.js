@@ -76,7 +76,14 @@ describe('lookup', function () {
     });
 
     describe('sanity', function () {
-        it('"text/pdf"', function () {
+        it('"application/jwt" is treated as text with "jwt" format', function () {
+            var mime = mimeFormat.lookup('application/jwt');
+            expect(mime).have.property('type', 'text');
+            expect(mime).have.property('format', 'jwt');
+            expect(mime).not.have.property('guessed');
+        });
+
+        it('"text/pdf" is treated as text even though it has "pdf" keyword', function () {
             var mime = mimeFormat.lookup('text/pdf');
             expect(mime).have.property('type', 'text');
             expect(mime).have.property('format', 'plain');
