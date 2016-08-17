@@ -90,77 +90,70 @@ describe('lookup', function () {
             expect(mime).have.property('guessed', true);
         });
 
-        it('"text/plain"', function () {
+        it('"text/plain" is basic and must work', function () {
             var mime = mimeFormat.lookup('text/plain');
             expect(mime).have.property('type', 'text');
             expect(mime).have.property('format', 'plain');
             expect(mime).have.property('guessed', true);
         });
 
-        it('"text/xml"', function () {
+        it('"text/xml" returns text with format as "xml"', function () {
             var mime = mimeFormat.lookup('text/xml');
             expect(mime).have.property('type', 'text');
             expect(mime).have.property('format', 'xml');
             expect(mime).have.property('guessed', true);
         });
 
-        it('"text/hodor+mxml"', function () {
+        it('"text/hodor+mxml" has "mxml" ans as such matches xml format', function () {
             var mime = mimeFormat.lookup('text/hodor+mxml');
             expect(mime).have.property('type', 'text');
             expect(mime).have.property('format', 'xml');
             expect(mime).have.property('guessed', true);
         });
 
-        it('"application/json"', function () {
+        it('"application/json" is "text" with json format', function () {
             var mime = mimeFormat.lookup('application/json');
             expect(mime).have.property('type', 'text');
             expect(mime).have.property('format', 'json');
             expect(mime).not.have.property('guessed');
         });
 
-        it('"application/some+javascript"', function () {
+        it('"application/some+javascript" is text with "script" as format', function () {
             var mime = mimeFormat.lookup('application/some+javascript');
             expect(mime).have.property('type', 'text');
             expect(mime).have.property('format', 'script');
             expect(mime).have.property('guessed', true);
         });
 
-        it('"application/some+vml"', function () {
+        it('"application/some+vml" is treated as text with "vml" format', function () {
             var mime = mimeFormat.lookup('application/some+vml');
             expect(mime).have.property('type', 'text');
             expect(mime).have.property('format', 'vml');
             expect(mime).have.property('guessed', true);
         });
 
-        it('"application/some+vml"', function () {
-            var mime = mimeFormat.lookup('application/some+vml');
-            expect(mime).have.property('type', 'text');
-            expect(mime).have.property('format', 'vml');
-            expect(mime).have.property('guessed', true);
-        });
-
-        it('"audio/some+vmll"', function () {
+        it('"audio/some+vmll" is treated as audio even if it has "vml" keyword owing to the base', function () {
             var mime = mimeFormat.lookup('audio/some+vml');
             expect(mime).have.property('type', 'audio');
             expect(mime).have.property('format', 'audio');
             expect(mime).have.property('guessed', true);
         });
 
-        it('"image/some+vmll"', function () {
+        it('"image/some+vmll" is treated as image even if it has "vml" keyword owing to the base', function () {
             var mime = mimeFormat.lookup('image/some+vml');
             expect(mime).have.property('type', 'image');
             expect(mime).have.property('format', 'image');
             expect(mime).have.property('guessed', true);
         });
 
-        it('"application/pdf"', function () {
+        it('"application/pdf" is special and is treated as "embed" type with format as "pdf"', function () {
             var mime = mimeFormat.lookup('application/pdf');
             expect(mime).have.property('type', 'embed');
             expect(mime).have.property('format', 'pdf');
             expect(mime).not.have.property('guessed');
         });
 
-        it('"application/xml"', function () {
+        it('"application/xml" is simple text and returns format as xml', function () {
             var mime = mimeFormat.lookup('application/xml');
             expect(mime).have.property('type', 'text');
             expect(mime).have.property('format', 'xml');
