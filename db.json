@@ -1,4 +1,8 @@
 {
+    "application/x-www-form-urlencoded": {
+        "type": "text",
+        "format": "plain"
+    },
     "application/pdf": {
         "type": "embed",
         "format": "pdf"

@@ -83,6 +83,13 @@ describe('lookup', function () {
             expect(mime).not.have.property('guessed');
         });
 
+        it('"application/x-www-form-urlencoded" is treated as text with "plain" format', function () {
+            var mime = mimeFormat.lookup('application/x-www-form-urlencoded');
+            expect(mime).have.property('type', 'text');
+            expect(mime).have.property('format', 'plain');
+            expect(mime).not.have.property('guessed');
+        });
+
         it('"text/pdf" is treated as text even though it has "pdf" keyword', function () {
             var mime = mimeFormat.lookup('text/pdf');
             expect(mime).have.property('type', 'text');
