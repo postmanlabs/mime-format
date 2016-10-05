@@ -1766,5 +1766,9 @@
     "application/ogg": {
         "type": "audio",
         "format": "ogg"
+    },
+    "multipart/form-data": {
+        "type": "text",
+        "format": "plain"
     }
 }
