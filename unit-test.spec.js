@@ -425,9 +425,9 @@ describe('lookup', function () {
         });
         it("multipart/form-data", function () {
             var mime = mimeFormat.lookup('multipart/form-data');
-            expect(mime).have.property('type', 'text');
-            expect(mime).have.property('format', 'plain');
-            expect(mime).not.have.property('guessed');
+            expect(mime).have.property('type', 'multipart');
+            expect(mime).have.property('format', 'raw');
+            expect(mime).have.property('guessed');
         });
         it("multipart/signed", function () {
             var mime = mimeFormat.lookup('multipart/signed');
