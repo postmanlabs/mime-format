@@ -21,11 +21,14 @@ npm install mime-format --save-dev;
 ```javascript
 var mimeFormat = require('mime-format');
 
-console.log(mimeFormat.lookup('application/xml'));
+console.log(mimeFormat.lookup('application/xml charset=gBk));
 // outputs
 // {
 //   "type": "text",
 //   "format": "xml"
+//   "charset": {
+//      "type": "gBk"
+//   }
 // }
 ```
 
