@@ -141,10 +141,14 @@ module.exports = {
      * @returns {Object}
      */
     lookup: function mimeFormatLookup (mime) {
+        var charset = require('charset')(mime);
+
         // sanitise the mime argument
         mime = String(mime).toLowerCase().replace(/\s/g, E).replace(/^([^;]+).*$/g, '$1');
         var result = db[mime] || module.exports.guess(mime);
 
+        // add the charset info to the mime.
+        result && charset && (result.charset = charset);
         result && (result.source = mime); // store the sanitised mime
         return result;
     }

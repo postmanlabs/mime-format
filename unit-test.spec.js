@@ -10,6 +10,7 @@ describe('lookup', function () {
             expect(mime).have.property('format', 'raw');
             expect(mime).have.property('guessed', true);
             expect(mime).have.property('orphan', true);
+            expect(mime).not.have.property('charset');
         });
 
         it('handles handle blank mime with raw format', function () {
@@ -40,6 +41,7 @@ describe('lookup', function () {
             expect(mime).have.property('format', 'pdf');
             expect(mime).not.have.property('guessed');
             expect(mime).have.property('source', 'application/pdf');
+            expect(mime).have.property('charset', 'text');
         });
 
         it('handles untrimmed boundary whitespaces', function () {
@@ -48,6 +50,7 @@ describe('lookup', function () {
             expect(mime).have.property('format', 'pdf');
             expect(mime).not.have.property('guessed');
             expect(mime).have.property('source', 'application/pdf');
+            expect(mime).have.property('charset', 'text');
         });
 
         it('handles untrimmed internal whitespaces outside db', function () {
@@ -483,5 +486,28 @@ describe('lookup', function () {
             expect(mime).have.property('format', 'xml');
             expect(mime).have.property('guessed');
         });
-    })
+    });
+    describe("Charset from headers", function () {
+        it("text/html; charset=Shift_JIS", function() {
+            var mime = mimeFormat.lookup('text/html; charset=Shift_JIS');
+            expect(mime).have.property('charset', 'shift_jis');
+        });
+
+        it("text/html; charset=ISO-8859-1", function() {
+            var mime = mimeFormat.lookup('text/html; charset=ISO-8859-1');
+            expect(mime).have.property('charset', 'iso-8859-1');
+        });
+    });
+
+    describe("Charset won't be available if it is not mentioned", function () {
+        it("text/html", function() {
+            var mime = mimeFormat.lookup('text/html;');
+            expect(mime).not.have.property('charset');
+        });
+
+        it("charset which is not word, number and -, say text/html; charset=中文编码", function() {
+            var mime = mimeFormat.lookup('text/html;charset=中文编码');
+            expect(mime).not.have.property('charset');
+        });
+    });
 });
