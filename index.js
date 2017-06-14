@@ -13,35 +13,35 @@ var /**
     SEP = '/',
     /**
      * @private
-     * @cons
+     * @const
      * @type {String}
      * @default
      */
     E = '',
     /**
      * @private
-     * @constant
+     * @const
      * @type {String}
      * @default
      */
     TEXT = 'text',
     /**
      * @private
-     * @constant
+     * @const
      * @type {String}
      * @default
      */
     RAW = 'raw',
     /**
      * @private
-     * @constant
+     * @const
      * @type {String}
      * @default
      */
     UNKNOWN = 'unknown',
     /**
      * @private
-     * @constant
+     * @const
      * @type {String}
      * @default
      */
@@ -51,7 +51,7 @@ var /**
      * All the content type base types that mostly mean what they are meant to do!
      *
      * @private
-     * @constant
+     * @const
      * @type {RegExp}
      * @default
      */
@@ -60,7 +60,7 @@ var /**
      * A blanket check for commonly used keywords that are associated with text content type
      *
      * @private
-     * @constant
+     * @const
      * @type {RegExp}
      * @default
      */
@@ -69,7 +69,7 @@ var /**
      * Same check as the sure-shot bases, except that these must be sub-types
      *
      * @private
-     * @constant
+     * @const
      * @type {RegExp}
      * @default
      */
@@ -78,7 +78,7 @@ var /**
      * The content type bases that are not well defined or ambiguous to classify
      *
      * @private
-     * @constant
+     * @const
      * @type {RegExp}
      * @default
      */
