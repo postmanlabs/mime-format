@@ -27,6 +27,6 @@
     "mocha": "^3.0.0"
   },
   "dependencies": {
-    "charset": "^1.0.0"
+    "charset": "^1.0.1"
   }
 }
