@@ -1,3 +1,7 @@
+# Temporary and working set files
+/.tmp/
+/out/
+
 # Logs
 logs
 *.log
