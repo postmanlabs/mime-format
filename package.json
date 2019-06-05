@@ -3,6 +3,7 @@
   "version": "2.0.0",
   "description": "Database to mime-format based on content-type header and content",
   "main": "index.js",
+  "types": "index.d.ts",
   "scripts": {
     "test": "mocha unit-test.spec.js",
     "build-docs": "./node_modules/.bin/jsdoc -c .jsdoc-config.json"
