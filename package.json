@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha unit-test.spec.js",
-    "build-docs": "./node_modules/.bin/jsdoc -c .jsdoc-config.json"
+    "build-docs": "./node_modules/.bin/jsdoc -c .jsdoc-config.json",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -30,6 +32,8 @@
     "jsdoc": "^3.4.3"
   },
   "dependencies": {
-    "charset": "^1.0.0"
-  }
+    "charset": "^1.0.0",
+    "snyk": "^1.189.0"
+  },
+  "snyk": true
 }
