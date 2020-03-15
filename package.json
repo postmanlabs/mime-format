@@ -26,7 +26,7 @@
   "devDependencies": {
     "expect.js": "^0.3.1",
     "mocha": "^6.0.0",
-    "postman-jsdoc-theme": "0.0.2",
+    "postman-jsdoc-theme": "0.0.3",
     "jsdoc": "^3.4.3"
   },
   "dependencies": {
