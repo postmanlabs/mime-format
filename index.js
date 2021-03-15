@@ -193,7 +193,8 @@ module.exports = {
         // sanitise the mime argument
         mime = String(mime).toLowerCase().replace(/\s/g, E).replace(/^([^;]+).*$/g, '$1');
         var result = db[mime];
-        result = result ? {...result} : module.exports.guess(mime)
+        result = result ? {...result} : module.exports.guess(mime);
+
         // add the charset info to the mime.
         result && charset && (result.charset = charset);
         result && (result.source = mime); // store the sanitised mime
