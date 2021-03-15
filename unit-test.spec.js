@@ -500,18 +500,6 @@ describe('lookup', function () {
     });
 
     describe("Charset won't be available if it is not mentioned", function () {
-        it("After an explicit charset", function () {
-            var mime = mimeFormat.lookup('application/json; charset=utf-16');
-            expect(mime).have.property('type', 'text');
-            expect(mime).have.property('format', 'json');
-            expect(mime).have.property('charset', 'utf-16');
-
-            mime = mimeFormat.lookup('application/json');
-            expect(mime).have.property('type', 'text');
-            expect(mime).have.property('format', 'json');
-            expect(mime).not.have.property('charset');
-        });
-
         it("text/html", function() {
             var mime = mimeFormat.lookup('text/html;');
             expect(mime).not.have.property('charset');
@@ -522,4 +510,18 @@ describe('lookup', function () {
             expect(mime).not.have.property('charset');
         });
     });
+
+    describe("Regression", function () {
+        it("charset provided in a call should not persist in subsequent calls without charset", function () {
+            var mime = mimeFormat.lookup('application/json; charset=utf-16');
+            expect(mime).have.property('type', 'text');
+            expect(mime).have.property('format', 'json');
+            expect(mime).have.property('charset', 'utf-16');
+
+            mime = mimeFormat.lookup('application/json');
+            expect(mime).have.property('type', 'text');
+            expect(mime).have.property('format', 'json');
+            expect(mime).not.have.property('charset');
+        });
+    })
 });
