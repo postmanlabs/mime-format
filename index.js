@@ -1,5 +1,6 @@
 var /**
      * @private
+     * @const
      * @type {Object}
      */
     db = require('./db.json'),
@@ -7,36 +8,42 @@ var /**
      * @private
      * @const
      * @type {String}
+     * @default
      */
     SEP = '/',
     /**
      * @private
      * @const
-     * @type {string}
+     * @type {String}
+     * @default
      */
     E = '',
     /**
      * @private
      * @const
-     * @type {string}
+     * @type {String}
+     * @default
      */
     TEXT = 'text',
     /**
      * @private
      * @const
-     * @type {string}
+     * @type {String}
+     * @default
      */
     RAW = 'raw',
     /**
      * @private
      * @const
-     * @type {string}
+     * @type {String}
+     * @default
      */
     UNKNOWN = 'unknown',
     /**
      * @private
      * @const
-     * @type {string}
+     * @type {String}
+     * @default
      */
     PLAIN = 'plain',
 
@@ -46,6 +53,7 @@ var /**
      * @private
      * @const
      * @type {RegExp}
+     * @default
      */
     AUDIO_VIDEO_IMAGE_TEXT = /(audio|video|image|text)/,
     /**
@@ -54,6 +62,7 @@ var /**
      * @private
      * @const
      * @type {RegExp}
+     * @default
      */
     JSON_XML_SCRIPT_SIBLINGS = /(jsonp|json|xml|html|yaml|vml|webml|script)/,
     /**
@@ -62,6 +71,7 @@ var /**
      * @private
      * @const
      * @type {RegExp}
+     * @default
      */
     AUDIO_VIDEO_IMAGE_TEXT_SUBTYPE = /\/[^\/]*(audio|video|image|text)/,
     /**
@@ -70,18 +80,24 @@ var /**
      * @private
      * @const
      * @type {RegExp}
+     * @default
      */
     APPLICATION_MESSAGE_MULTIPART = /(application|message|multipart)/;
+
+/**
+ * Simple module to lookup the base format of HTTP response bodies from the content-type header
+ * @module mime-format
+ */
 
 module.exports = {
     /**
      * Attempts to guess the format by analysing mime type and not a db lookup
-     *
+     * @private
      * @param {String} mime - contentType header value
-     *
      * @returns {Object}
      */
     guess: function (mime) {
+
         var info = {
                 type: UNKNOWN,
                 format: RAW,
@@ -137,15 +153,49 @@ module.exports = {
     },
 
     /**
-     * @param {String} mime - contentType header value
+     * Finds the mime-format of the provided Content-Type
+     * @param {String} mime - Content-Type for which you want to find the mime format. e.g <b><i>application/xml</i></b>.
      * @returns {Object}
+     * @example <caption>Basic usage</caption>
+     * mimeFormat.lookup('application/xml');
+     *
+     * // Output
+     * // {
+     * //   "type": "text",
+     * //   "format": "xml"
+     * // }
+     *
+     * @example <caption>Content-Type with charset</caption>
+     * mimeFormat.lookup('application/xml; charset=gBk');
+     *
+     * // Output
+     * // {
+     * //   "type": "text",
+     * //   "format": "xml",
+     * //   "charset": "gBk"
+     * // }
+     *
+     * @example <caption>Unknown Content-Type</caption>
+     * mimeFormat.lookup('random/abc');
+     *
+     * // Output
+     * // {
+     * //   "type": "unknown",
+     * //   "format": "raw",
+     * //   "guessed": true,
+     * //   "orphan": true
+     * // }
+     *
      */
     lookup: function mimeFormatLookup (mime) {
-        var charset = require('charset')(mime);
+        var charset = require('charset')(mime),
+            result;
 
         // sanitise the mime argument
         mime = String(mime).toLowerCase().replace(/\s/g, E).replace(/^([^;]+).*$/g, '$1');
-        var result = db[mime] || module.exports.guess(mime);
+
+        result = db[mime];
+        result = result ? Object.assign({}, result) : module.exports.guess(mime);
 
         // add the charset info to the mime.
         result && charset && (result.charset = charset);
