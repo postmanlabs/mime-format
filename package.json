@@ -1,6 +1,6 @@
 {
   "name": "mime-format",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Database to mime-format based on content-type header and content",
   "main": "index.js",
   "scripts": {
