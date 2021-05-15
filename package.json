@@ -25,7 +25,7 @@
   "homepage": "https://github.com/postmanlabs/mime-format#readme",
   "devDependencies": {
     "expect.js": "^0.3.1",
-    "jsdoc": "^3.4.3",
+    "jsdoc": "^3.6.7",
     "mocha": "^8.3.2",
     "postman-jsdoc-theme": "^0.0.3"
   },
