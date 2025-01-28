@@ -7,13 +7,73 @@
         "type": "embed",
         "format": "pdf"
     },
-    "application/ecmascript": {
+    "text/javascript": {
         "type": "text",
-        "format": "script"
+        "format": "javascript"
     },
     "application/javascript": {
         "type": "text",
-        "format": "script"
+        "format": "javascript"
+    },
+    "application/ecmascript": {
+        "type": "text",
+        "format": "javascript"
+    },
+    "application/x-ecmascript": {
+        "type": "text",
+        "format": "javascript"
+    },
+    "application/x-javascript": {
+        "type": "text",
+        "format": "javascript"
+    },
+    "text/ecmascript": {
+        "type": "text",
+        "format": "javascript"
+    },
+    "text/javascript1.0": {
+        "type": "text",
+        "format": "javascript"
+    },
+    "text/javascript1.1": {
+        "type": "text",
+        "format": "javascript"
+    },
+    "text/javascript1.2": {
+        "type": "text",
+        "format": "javascript"
+    },
+    "text/javascript1.3": {
+        "type": "text",
+        "format": "javascript"
+    },
+    "text/javascript1.4": {
+        "type": "text",
+        "format": "javascript"
+    },
+    "text/javascript1.5": {
+        "type": "text",
+        "format": "javascript"
+    },
+    "text/jscript": {
+        "type": "text",
+        "format": "javascript"
+    },
+    "text/livescript": {
+        "type": "text",
+        "format": "javascript"
+    },
+    "text/x-ecmascript": {
+        "type": "text",
+        "format": "javascript"
+    },
+    "text/x-javascript": {
+        "type": "text",
+        "format": "javascript"
+    },
+    "text/css": {
+        "type": "text",
+        "format": "css"
     },
     "application/json": {
         "type": "text",
