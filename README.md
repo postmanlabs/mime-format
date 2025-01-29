@@ -60,7 +60,7 @@ is redundant.
 - video
 - image
 - plain
-- javascript
+- script
 - css
 - jsonp
 - json

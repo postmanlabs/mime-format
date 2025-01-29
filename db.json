@@ -9,67 +9,67 @@
     },
     "text/javascript": {
         "type": "text",
-        "format": "javascript"
+        "format": "script"
     },
     "application/javascript": {
         "type": "text",
-        "format": "javascript"
+        "format": "script"
     },
     "application/ecmascript": {
         "type": "text",
-        "format": "javascript"
+        "format": "script"
     },
     "application/x-ecmascript": {
         "type": "text",
-        "format": "javascript"
+        "format": "script"
     },
     "application/x-javascript": {
         "type": "text",
-        "format": "javascript"
+        "format": "script"
     },
     "text/ecmascript": {
         "type": "text",
-        "format": "javascript"
+        "format": "script"
     },
     "text/javascript1.0": {
         "type": "text",
-        "format": "javascript"
+        "format": "script"
     },
     "text/javascript1.1": {
         "type": "text",
-        "format": "javascript"
+        "format": "script"
     },
     "text/javascript1.2": {
         "type": "text",
-        "format": "javascript"
+        "format": "script"
     },
     "text/javascript1.3": {
         "type": "text",
-        "format": "javascript"
+        "format": "script"
     },
     "text/javascript1.4": {
         "type": "text",
-        "format": "javascript"
+        "format": "script"
     },
     "text/javascript1.5": {
         "type": "text",
-        "format": "javascript"
+        "format": "script"
     },
     "text/jscript": {
         "type": "text",
-        "format": "javascript"
+        "format": "script"
     },
     "text/livescript": {
         "type": "text",
-        "format": "javascript"
+        "format": "script"
     },
     "text/x-ecmascript": {
         "type": "text",
-        "format": "javascript"
+        "format": "script"
     },
     "text/x-javascript": {
         "type": "text",
-        "format": "javascript"
+        "format": "script"
     },
     "text/css": {
         "type": "text",

@@ -181,7 +181,7 @@ describe('lookup', function () {
         it("application/ecmascript", function () {
             var mime = mimeFormat.lookup('application/ecmascript');
             expect(mime).have.property('type', 'text');
-            expect(mime).have.property('format', 'javascript');
+            expect(mime).have.property('format', 'script');
             expect(mime).not.have.property('guessed');
         });
         it("application/json", function () {
@@ -193,7 +193,7 @@ describe('lookup', function () {
         it("application/javascript", function () {
             var mime = mimeFormat.lookup('application/javascript');
             expect(mime).have.property('type', 'text');
-            expect(mime).have.property('format', 'javascript');
+            expect(mime).have.property('format', 'script');
             expect(mime).not.have.property('guessed');
         });
         it("application/ogg", function () {
