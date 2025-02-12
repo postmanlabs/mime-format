@@ -61,7 +61,7 @@ is redundant.
 - image
 - plain
 - script
-- css
+- stylesheet
 - jsonp
 - json
 - xml
