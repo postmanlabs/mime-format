@@ -73,7 +73,7 @@
     },
     "text/css": {
         "type": "text",
-        "format": "css"
+        "format": "stylesheet"
     },
     "application/json": {
         "type": "text",
